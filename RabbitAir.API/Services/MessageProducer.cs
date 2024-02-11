@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using RabbitAir.API.Models;
 using RabbitMQ.Client;
 
 namespace RabbitAir.API.Services;
@@ -7,23 +8,9 @@ namespace RabbitAir.API.Services;
 
 public class MessageProducer : IMessageProducer
 {
-    public void SendingMessage<T>(T message)
+    public void Send(Booking message)
     {
-        var factory = new ConnectionFactory()
-        {
-            HostName = "localhost",
-            UserName = "user",
-            Password = "password",
-            VirtualHost = "/"
-        };
-
-        var conn = factory.CreateConnection();
-        using var channel = conn.CreateModel();
-        channel.QueueDeclare("bookings", durable:true, exclusive: false);
-
-        var jsonString = JsonSerializer.Serialize(message);
-        var body = Encoding.UTF8.GetBytes(jsonString);
-
-        channel.BasicPublish("", "bookings", body:body);
+        var broker = new RabbitMq();
+        broker.Send<Booking>(message, "bookings");
     }
 }

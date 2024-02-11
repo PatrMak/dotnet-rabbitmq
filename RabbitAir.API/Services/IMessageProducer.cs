@@ -1,6 +1,8 @@
+using RabbitAir.API.Models;
+
 namespace RabbitAir.API.Services;
 
 public interface IMessageProducer
 {
-    public void SendingMessage<T>(T message);
+    public void Send(Booking message);
 }

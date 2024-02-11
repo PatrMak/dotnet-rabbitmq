@@ -8,17 +8,10 @@ namespace RabbitAir.API.Controllers;
 [Route("[Controller]")]
 public class BookingsController : ControllerBase
 {
-
-    private readonly ILogger<BookingsController> _logger;
     private readonly IMessageProducer _messageProdcuer;
 
-    // fake db memory
-    public static readonly List<Booking> _bookings = new();
-
-
-    public BookingsController(ILogger<BookingsController> logger, IMessageProducer messageProducer)
+    public BookingsController(IMessageProducer messageProducer)
     {
-        _logger = logger;
         _messageProdcuer = messageProducer;
     }
 
@@ -28,9 +21,7 @@ public class BookingsController : ControllerBase
         if(!ModelState.IsValid)
             return BadRequest();
 
-        _bookings.Add(newBooking);
-
-        _messageProdcuer.SendingMessage<Booking>(newBooking);
+        _messageProdcuer.Send(newBooking);
         return Ok();
     }
 }
