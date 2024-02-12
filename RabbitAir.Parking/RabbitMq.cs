@@ -2,7 +2,7 @@ using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace RabbitAir.Booking;
+namespace RabbitAir.Parking;
 
 public class RabbitMq 
 {
@@ -27,7 +27,7 @@ public class RabbitMq
         EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
         consumer.Received += (sender, eventArgs)=>
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
             OnMessageReached(this, message);
