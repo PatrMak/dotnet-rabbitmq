@@ -17,12 +17,14 @@ public class RabbitMq
     {
         var conn = factory.CreateConnection();
         using var channel = conn.CreateModel();
-        channel.QueueDeclare(queueName, durable:true, exclusive: false);
+        channel.ExchangeDeclare(exchange: "bookings", type:ExchangeType.Fanout);
+
+       // channel.QueueDeclare(queueName, durable:true, exclusive: false);
 
         var jsonString = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(jsonString);
 
-        channel.BasicPublish("", queueName, body:body);
+        channel.BasicPublish(exchange: "bookings", routingKey:string.Empty, basicProperties:null, body:body);
         channel.Close();
         conn.Close();
     }

@@ -3,7 +3,7 @@ using RabbitAir.Parking;
 
 Console.WriteLine("Welcome to Parking service!");
 
-var broker = new RabbitMq("bookings");
+var broker = new RabbitMq();
 
 broker.MessageReached += MessageReached;
 

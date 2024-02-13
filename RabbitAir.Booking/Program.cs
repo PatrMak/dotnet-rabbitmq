@@ -3,7 +3,7 @@ using RabbitAir.Booking;
 
 Console.WriteLine("Welcome to Booking service!");
 
-var broker = new RabbitMq("bookings");
+var broker = new RabbitMq();
 
 broker.MessageReached += MessageReached;
 
